@@ -28,7 +28,12 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String,
     }
+},{
+    versionKey: false,
 });
+
+
+
 
 userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
