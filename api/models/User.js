@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -42,4 +44,17 @@ userSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
 
 });
+
+userSchema.methods.toJSON = function () {
+    const obj = this.toObject();
+    if(obj.image){
+        obj.image = `${process.env.PUBLIC_URL}/users/${obj.image}`;
+    }else{
+        obj.image = `${process.env.PUBLIC_URL}/icons/notfound.png`;
+    }
+    delete obj.password;
+    return obj;
+};
+
+
 export default mongoose.model('User', userSchema);
