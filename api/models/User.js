@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 const userSchema = new mongoose.Schema({
@@ -55,6 +56,19 @@ userSchema.methods.toJSON = function () {
     delete obj.password;
     return obj;
 };
+
+userSchema.methods.comparePassword = function (password) {
+    return bcrypt.compare(password, this.password);
+}
+
+userSchema.methods.generateToken = function () {
+    let secret = process.env.JWT_SECRET;
+    let expiresDate = process.env.JWT_EXPIRES_IN;
+    return jwt.sign({ id: this._id, role: this.role }, secret, {
+        expiresIn: expiresDate,
+    });
+};
+
 
 
 export default mongoose.model('User', userSchema);

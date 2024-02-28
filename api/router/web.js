@@ -1,5 +1,6 @@
 import express from "express";
 import userRoute from "./userRoute.js";
+import loginRoute from "./loginRoute.js";
 
 
 const webRouter = express.Router();
@@ -9,5 +10,6 @@ webRouter.get('/', (req, res) => {
 });
 
 webRouter.use('/user', userRoute);
+webRouter.use('/login', loginRoute);
 
 export default webRouter;
