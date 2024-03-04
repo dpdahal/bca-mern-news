@@ -1,0 +1,46 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+.container-box{
+    width: 95%;
+    margin: auto;
+}
+.admin-panel{
+    display: grid;
+    .top-header{
+       grid-column-start: 1;
+        grid-column-end: 12;
+        height: 60px;
+        background: rgb(232, 232, 235);
+        position: fixed;
+        width: 100%;
+        z-index: 700; 
+        
+        .header-container{
+            display: flex;
+            justify-content: space-between;
+            height: 60px;
+            align-items: center;
+        }
+    }
+    .aside-bar{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        height: 100vh;
+        background: rgb(157, 174, 181);
+        position: fixed;
+        width: 18%;
+        top: 60px;
+    }
+    .main{
+        grid-column-start: 3;
+        grid-column-end: 12;
+        top: 60px;
+        position: absolute;
+        width: 82%;
+        left: 18%;
+    }
+}
+

@@ -72,3 +72,4 @@ userSchema.methods.generateToken = function () {
 
 
 export default mongoose.model('User', userSchema);
+
