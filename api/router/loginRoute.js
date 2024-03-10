@@ -5,5 +5,5 @@ const loginRoute = express.Router();
 const loignInstance = new LoginController();
 
 loginRoute.post('/', loignInstance.login);
-
+loginRoute.get('/token-verify', loignInstance.tokenVerify);
 export default loginRoute;
