@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom';
 import "../scss/Admin.scss";
 import API from "../API";
+import { Link } from 'react-router-dom';
 
 export default function AdminRouteMiddleware() {
   const [isLogin, setIsLogin] = useState(false);
@@ -31,14 +32,11 @@ export default function AdminRouteMiddleware() {
   }, []);
 
  
-
-
   return (
     <>
-      {isLoading ? <h1>Loading...</h1> : <div>
-
+      {isLoading ? <h1>Loading...</h1> : 
+      <div>
         {isLogin ?
-
           <div className="admin-panel">
             <div className="top-header">
               <div className="container-box">
@@ -54,8 +52,12 @@ export default function AdminRouteMiddleware() {
             </div>
             <div className="aside-bar">
               <ul>
-                <li>Dashboard</li>
-                <li>Show Users</li>
+                <li>
+                  <Link to="/admin">Dashboard</Link>
+                </li>
+                <li>
+                  <Link to="/admin/show-users">Users</Link>
+                </li>
               </ul>
             </div>
             <div className="main">
@@ -65,14 +67,10 @@ export default function AdminRouteMiddleware() {
             </div>
           </div>
           :
-
           window.location.href = "/"
         }
       </div>
-
-
       }
-
     </>
   )
 
