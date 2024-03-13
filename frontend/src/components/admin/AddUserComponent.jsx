@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import API from '../../API';
 
 const addUserSchema = yup.object().shape({
     name: yup.string().required(),
@@ -14,12 +15,29 @@ const addUserSchema = yup.object().shape({
 });
 
 export default function AddUserComponent() {
+    let token = localStorage.getItem("token") ?? "";
     const { register, setError, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(addUserSchema)
     });
 
     const addUser = (data) => {
-
+       let formData = new FormData();
+         formData.append('name', data.name);
+         formData.append('email', data.email);
+         formData.append('password', data.password);
+         formData.append('gender',data.gender);
+         formData.append('role',data.role);
+         formData.append('image',data.image[0]);
+        API.post('/user', formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((res)=>{
+            console.log(res);
+        }).catch((error)=>{
+            console.log(error);
+        });
+        
     }
     return (
         <div>
