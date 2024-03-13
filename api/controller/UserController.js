@@ -18,7 +18,7 @@ class UserController {
         }
         const user = new User({ ...req.body, image});
         await user.save();
-        res.status(201).json(user);
+        res.status(201).json({status:true, message:"User created successfully!"});
     }
     async update(req, res) {
 

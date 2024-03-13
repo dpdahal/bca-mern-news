@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import API from '../../API';
+import Swal from 'sweetalert2'
+
 
 const addUserSchema = yup.object().shape({
     name: yup.string().required(),
@@ -33,7 +35,17 @@ export default function AddUserComponent() {
                 Authorization: `Bearer ${token}`
             }
         }).then((res)=>{
-            console.log(res);
+            if(res.data.status){
+                Swal.fire({
+                    icon: "success",
+                    title: res.data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            reset();
+            }else{
+                console.log("data not inserted")
+            }
         }).catch((error)=>{
             console.log(error);
         });
