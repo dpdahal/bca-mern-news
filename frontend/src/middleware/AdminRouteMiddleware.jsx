@@ -56,6 +56,9 @@ export default function AdminRouteMiddleware() {
                   <Link to="/admin">Dashboard</Link>
                 </li>
                 <li>
+                  <Link to="/admin/add-user">Add User</Link>
+                </li>
+                <li>
                   <Link to="/admin/show-users">Users</Link>
                 </li>
               </ul>
