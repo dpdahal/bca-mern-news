@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import API from '../../API';
+
 
 export default function ShowUsersComponent() {
   let token = localStorage.getItem("token") ?? "";
@@ -25,8 +27,13 @@ export default function ShowUsersComponent() {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }).then(response => {
-      console.log(response);
+    }).then(res => {
+      Swal.fire({
+        icon: "success",
+        title: res.data.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
       getUser();
 
     }).catch(error => {

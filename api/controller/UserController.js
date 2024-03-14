@@ -1,11 +1,24 @@
 import fs from "fs";
 import User from "../models/User.js";
+import TokenVerify from "../middleware/TokenVerify.js";
 
 class UserController {
 
-    async index(req, res) {
-        const users = await User.find({});
-        return res.status(200).json(users);
+    async index(req, res) {        
+        let token = req.headers.authorization.split(" ")[1];
+        let response = TokenVerify.verifyToken(token);
+        let role = response.role;
+        let id = response.id;
+        if (role != "admin") {
+            const user = await User.findById(id);
+            let users = [];
+            users.push(user);
+            return res.status(200).json(users);
+        }else{
+        const users = await User.find({ _id: { $ne: id } });
+        return res.status(200).json(users);            
+        }
+       
     }
     async show(req, res) {
         let id = req.params.id;
