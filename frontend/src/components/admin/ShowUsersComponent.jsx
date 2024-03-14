@@ -19,7 +19,23 @@ export default function ShowUsersComponent() {
   useEffect(() => {
     getUser();
   }, []);
-  console.log(users);
+
+  const deleteUser = (id) => {
+    API.delete(`/user/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(response => {
+      console.log(response);
+      getUser();
+
+    }).catch(error => {
+    });
+
+  }
+
+
+
   return (
     <div>
       <h1>Show users components</h1>
@@ -49,7 +65,7 @@ export default function ShowUsersComponent() {
                   <td><img src={user.image} alt={user.name} width="50" height="50" /></td>
                   <td>
                     <button>Edit</button>
-                    <button>Delete</button>
+                    <button onClick={()=>deleteUser(user._id)}>Delete</button>
                   </td>
                 </tr>)
 
