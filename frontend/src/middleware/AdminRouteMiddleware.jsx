@@ -31,6 +31,11 @@ export default function AdminRouteMiddleware() {
 
   }, []);
 
+  const logout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  }
+
  
   return (
     <>
@@ -45,7 +50,7 @@ export default function AdminRouteMiddleware() {
                     <h1>BCA News</h1>
                   </div>
                   <div className="logout-section">
-                    <button>Logout</button>
+                    <button onClick={logout}>Logout</button>
                   </div>
                 </div>
               </div>
