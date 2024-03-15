@@ -33,6 +33,46 @@ body{
         position: fixed;
         width: 18%;
         top: 60px;
+
+        .admin-profle{            
+            width: 85%;
+            height: 90px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+
+            .admin-image{
+                width: 45%;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                
+                }
+            }
+
+            .admin-info{
+                width: 45%;
+
+                h1{
+                    font-size: 20px;
+                    line-height: 40px;
+                }
+            }
+        }
+
+        ul{
+            list-style-type: none;
+
+            li{
+                line-height: 40px;
+            }
+        }
+
+        a{
+            text-decoration: none;
+            color: white;
+        }
     }
     .main{
         grid-column-start: 3;

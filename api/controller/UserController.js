@@ -51,5 +51,14 @@ class UserController {
         return res.status(200).json({ status: true, message: "User deleted successfully!" });
 
     }
+
+
+    async getProfile(req, res) {
+        let token = req.headers.authorization.split(" ")[1];
+        let response = TokenVerify.verifyToken(token);
+        let id = response.id;
+        const user = await User.findById(id);
+        return res.status(200).json(user);
+    }
 }
 export default UserController;
