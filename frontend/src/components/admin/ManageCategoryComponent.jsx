@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import API from '../../API';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const categorySchema = yup.object().shape({
     category_name: yup.string().required(),
@@ -15,10 +15,20 @@ export default function ManageCategoryComponent() {
         resolver: yupResolver(categorySchema)
     });
     const addCategory = (data) => {
+        API.post("/category", data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(response => {
+            console.log(response)
+        }).catch(error => {
+            console.log(error)
+        });
 
     }
   return (
-    <div>
+    <div className='mt-3'>
+        <h1>Manage Category</h1>
          <form onSubmit={handleSubmit(addCategory)}>
                 <div className="form-group mb-2">
                     <label> Name:

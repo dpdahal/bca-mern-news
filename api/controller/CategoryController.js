@@ -13,7 +13,7 @@ class CategoryController{
     async store(req,res){
         const catData = new Category({...req.body});
         await catData.save();
-        res.json(catData);
+        res.json({status: 201, message: "Saved successfully"});
     }
     async update(req,res){
         let id = req.params.id;
