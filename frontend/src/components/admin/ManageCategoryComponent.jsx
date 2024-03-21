@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -10,6 +10,9 @@ const categorySchema = yup.object().shape({
 });
 
 export default function ManageCategoryComponent() {
+    const [categories, setCategories] = useState([]);
+    const [loading , setLoading] = useState(true);
+
     let token = localStorage.getItem("token") ?? "";
     const { register, setError, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(categorySchema)
@@ -26,6 +29,24 @@ export default function ManageCategoryComponent() {
         });
 
     }
+
+    const getCategory = () => { 
+        API.get("/category", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(response => {
+            setCategories(response.data);
+            setLoading(false);
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
+    useEffect(() => {
+        getCategory();
+    },[]);
+
   return (
     <div className='mt-3'>
         <h1>Manage Category</h1>
@@ -44,6 +65,27 @@ export default function ManageCategoryComponent() {
                     <button className="btn btn-primary">Add Category</button>
                 </div>
             </form>
+        <hr />
+        <h1>Category List</h1>
+        <table className="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loading && <tr><td colSpan="2">Loading...</td></tr>}
+                {categories.map((category) => (
+                    <tr key={category.id}>
+                        <td>{category.category_name}</td>
+                        <td>
+                            <button className="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     </div>
   )
 }
