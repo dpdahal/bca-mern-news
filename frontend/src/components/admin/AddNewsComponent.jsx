@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -17,11 +17,27 @@ const newsSchema = yup.object().shape({
 
 export default function AddNewsComponent() {
     let token = localStorage.getItem("token") ?? "";
+    const [categories, setCategories] = React.useState([]);
+    const [loading , setLoading] = useState(true);
     const { register, setError, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(newsSchema)
     });
 
+    const getCategory = () => { 
+        API.get("/category", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(response => {
+            setCategories(response.data);
+            setLoading(false);
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
     const addNews = (data) => {
+        console.log(data);
        let formData = new FormData();
         formData.append('categoryId',data.categoryId);
         formData.append('title',data.title);
@@ -50,11 +66,30 @@ export default function AddNewsComponent() {
         });
         
     }
+
+    useEffect(() => {
+        getCategory();
+    }, []);
     return (
         <div>
             <h1>Add News</h1>
 
             <form onSubmit={handleSubmit(addNews)}>
+                <div className="form-group mb-2">
+                    <label>Category:
+                        <a className='text-danger'>
+                            {errors.categoryId?.message && <span>{errors.categoryId?.message}</span>}
+                        </a>
+                    </label>
+                    <select name='categoryId'
+                        {...register("categoryId")}
+                        className="form-control">
+                        <option value="">Select Category</option>
+                        {categories.map((category) => (
+                            <option key={category._id} value={category._id}>{category.category_name}</option>
+                        ))}
+                    </select>
+                </div>
                 <div className="form-group mb-2">
                     <label> Title:
                         <a className='text-danger'>
