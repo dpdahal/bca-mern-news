@@ -91,6 +91,9 @@ export default function AdminRouteMiddleware() {
                   <li>
                     <Link to="/admin/manage-category">Manage Category</Link>
                   </li>
+                  <li>
+                    <Link to="/admin/add-news">Add News</Link>
+                  </li>
                 </ul>
               </div>
               <div className="main">

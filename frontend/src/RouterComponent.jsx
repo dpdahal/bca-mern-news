@@ -10,6 +10,7 @@ import AdminRouteMiddleware from './middleware/AdminRouteMiddleware'
 import LoginComponent from './components/auth/LoginComponent'
 import AddUserComponent from './components/admin/AddUserComponent'
 import ManageCategoryComponent from './components/admin/ManageCategoryComponent'
+import AddNewsComponent from './components/admin/AddNewsComponent'
 
 export default function RouterComponent() {
   return (
@@ -26,6 +27,8 @@ export default function RouterComponent() {
           <Route path="add-user" element={<AddUserComponent />} />
           <Route path="show-users" element={<ShowUsersComponent />} />
           <Route path="manage-category" element={<ManageCategoryComponent />} />
+          <Route path="add-news" element={<AddNewsComponent />} />
+
         </Route>
       </Routes>
     </div>
