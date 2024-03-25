@@ -12,21 +12,42 @@ const categorySchema = yup.object().shape({
 export default function ManageCategoryComponent() {
     const [categories, setCategories] = useState([]);
     const [loading , setLoading] = useState(true);
-
     let token = localStorage.getItem("token") ?? "";
+    const [btnName, setBtnName] = useState("Add Category");
+    const [criteria, setCriteria] = useState("");
     const { register, setError, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(categorySchema)
     });
     const addCategory = (data) => {
+        if(criteria){
+            API.put(`/category/${criteria}`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(response => {
+                console.log(response)
+                setCriteria("");
+                setBtnName("Add Category");
+                getCategory();
+                reset();
+               
+            }).catch(error => {
+                console.log(error)
+            });
+
+        }else{
         API.post("/category", data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then(response => {
             console.log(response)
+            getCategory();
+            reset();
         }).catch(error => {
             console.log(error)
         });
+        }
 
     }
 
@@ -42,6 +63,22 @@ export default function ManageCategoryComponent() {
             console.log(error)
         });
     }
+
+    const updateData = (id) => {
+        API.get(`/category/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(response => {
+            reset(response.data);
+            setCriteria(response.data._id);
+            setBtnName("Update Category");          
+        
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
 
     useEffect(() => {
         getCategory();
@@ -62,7 +99,7 @@ export default function ManageCategoryComponent() {
                         className="form-control" />
                 </div>               
                 <div className="form-group mb-2">
-                    <button className="btn btn-primary">Add Category</button>
+                    <button className="btn btn-primary">{btnName}</button>
                 </div>
             </form>
         <hr />
@@ -76,11 +113,12 @@ export default function ManageCategoryComponent() {
             </thead>
             <tbody>
                 {loading && <tr><td colSpan="2">Loading...</td></tr>}
-                {categories.map((category) => (
-                    <tr key={category.id}>
+                {categories.map((category,index) => (
+                    <tr key={index}>
                         <td>{category.category_name}</td>
-                        <td>
+                        <td width='15%'>
                             <button className="btn btn-danger">Delete</button>
+                            <button onClick={()=>updateData(category._id)} className='btn btn-primary'>Update</button>
                         </td>
                     </tr>
                 ))}
