@@ -1,5 +1,8 @@
 import News from "../models/News.js";
 import TokenVerify from "../middleware/TokenVerify.js";
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 class NewsController{
 
@@ -23,6 +26,14 @@ class NewsController{
                 }
             }
         ]);
+        nData.map((news) => {
+            if(news.image){
+                news.image = `${process.env.PUBLIC_URL}/news/${news.image}`;
+            }else{
+                news.image = `${process.env.PUBLIC_URL}/icons/notfound.png`;
+            }
+            return news;
+        });
         res.status(200).json({ status: true, news: nData })
     }
 
